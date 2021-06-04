@@ -30,8 +30,8 @@ vacancies, errors = [], []
 
 def get_settings():
     qs = User.objects.filter(mailing=True).values()
-    settings_list = set((q['city_id'], q['language_id']) for q in qs)
-    return settings_list
+    settings_lst = set((q['city_id'], q['language_id']) for q in qs)
+    return settings_lst
 
 
 def get_urls(_settings):
@@ -64,8 +64,8 @@ url_list = get_urls(settings)
 
 loop = asyncio.get_event_loop()
 tmp_tasks = [(func, data['url_data'][key], data['city'], data['language'])
-            for data in url_list
-            for func, key in parsers]
+             for data in url_list
+             for func, key in parsers]
 
 if tmp_tasks:
     tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
@@ -78,7 +78,6 @@ for vac in vacancies:
         v.save()
     except DatabaseError:
         pass
-
 if errors:
     qs = Errors.objects.filter(timestamp=datetime.date.today())
     if qs.exists():
@@ -86,11 +85,21 @@ if errors:
         err.data.update({'errors': errors})
         err.save()
     else:
-        e = Errors(data=f'Errors: {errors}').save()
-
-with codecs.open('work.txt', 'w', 'utf-8') as file:
-    file.write(str(vacancies))
+        er = Errors(data=f'errors:{errors}').save()
 
 
 seven_days_ago = datetime.date.today() - datetime.timedelta(10)
 Vacancy.objects.filter(timestamp__lte=seven_days_ago).delete()
+
+
+
+
+# for data in url_list:
+#
+#     for func, key in parsers:
+#         url = data['url_data'][key]
+#         j, e = func(url, city=data['city'], language=data['language'])
+#         jobs += j
+#         errors += e
+
+
