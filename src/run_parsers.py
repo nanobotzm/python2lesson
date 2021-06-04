@@ -67,17 +67,11 @@ tmp_tasks = [(func, data['url_data'][key], data['city'], data['language'])
             for data in url_list
             for func, key in parsers]
 
-tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
-# for data in url_list:
-#
-#     for func, key in parsers:
-#         url = data['url_data'][key]
-#         v, e = func(url, city=data['city'], language=data['language'])
-#         vacancies += v
-#         errors += e
+if tmp_tasks:
+    tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
+    loop.run_until_complete(tasks)
+    loop.close()
 
-loop.run_until_complete(tasks)
-loop.close()
 for vac in vacancies:
     v = Vacancy(**vac)
     try:
