@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %} Settings {% endblock %}
+
+{% block content %}
+
+<div class="row" >
+    <div class="col-md-6 mx-auto">
+        <h4 class="text-center">Настройки </h4>
+        <form method="POST" action="">{% csrf_token %}
+              <div class="mb-3">
+                {{ form.as_p }}
+              </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+                </div>
+                <div class="col-sm-4 ">
+                <form method="POST" action="{% url 'accounts:delete' %}">{% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить аккаунт</button>
+                </form>
+                </div>
+            </div>
+
+
+    </div>
+</div>
+
+
+
+<div class="row" >
+    <div class="col-md-6 mx-auto">
+        <p class="my-3">Если есть пожелания по добавлению города и языка программирования, свяжитесь с нами: </p>
+        <p>
+            <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapsed" aria-expanded="false" aria-controls="collapseExample">
+            Отобразить форму
+            </button>
+        </p>
+        <div class="collapse" id="collapsed">
+            <form method="POST" action="{% url 'accounts:contact' %}">{% csrf_token %}
+              <div class="mb-3">
+                {{ contact_form.as_p }}
+              </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}

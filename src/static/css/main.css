@@ -1,0 +1,9 @@
+@font-face {
+    font-family: Metamorphous;
+    src: url(../fonts/Metamorphous-Regular.ttf);
+}
+
+#logo-text {
+    font-family: Metamorphous;
+    color: #000;
+}
