@@ -96,3 +96,7 @@ if errors:
 
 with codecs.open('work.txt', 'w', 'utf-8') as file:
     file.write(str(vacancies))
+
+
+seven_days_ago = datetime.date.today() - datetime.timedelta(10)
+Vacancy.objects.filter(timestamp__lte=seven_days_ago).delete()
